@@ -1,4 +1,4 @@
-package 할인행사;
+package _3월4주.할인행사;
 
 public class 이태균 {
 
