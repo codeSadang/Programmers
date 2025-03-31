@@ -53,15 +53,7 @@ public class 홍창모 {
                 // 10일이 되면 lt를 증가시켜서 10일을 유지한다.
                 // discountMap의 크기와 wantMap의 Key Value가 같은지 확인한다.
                 if( discountMap.size() == wantMap.size() ) {
-                    boolean flag = true;
-                    for( Map.Entry<String, Integer> entry : wantMap.entrySet() ) {
-                        if( discountMap.getOrDefault(entry.getKey(), 0) != entry.getValue() ) {
-                            flag = false;
-                            break;
-                        }
-                    }
-
-                    if( flag ) {
+                    if( equalsMap(wantMap, discountMap) ) {
                         answer++;
                     }
                 }
@@ -77,5 +69,15 @@ public class 홍창모 {
         }
 
         return answer;
+    }
+
+    private static boolean equalsMap(HashMap<String, Integer> wantMap, HashMap<String, Integer> discountMap) {
+        for( Map.Entry<String, Integer> entry : wantMap.entrySet() ) {
+            if( discountMap.getOrDefault(entry.getKey(), 0) != entry.getValue() ) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
