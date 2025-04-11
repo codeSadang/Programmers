@@ -19,7 +19,6 @@ public class 황병수 {
     }
 
     private static int solution(int s) {
-
         int ans = 0;
         while (s > 0) {
             if (s % 2 == 0) {
