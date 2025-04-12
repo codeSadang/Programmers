@@ -25,6 +25,7 @@ public class 황병수 {
         }
 
         ArrayDeque<int[]> queue = new ArrayDeque<>();
+
         queue.add(new int[]{1,1});
         paths[1][1] = 1;
 
