@@ -5,14 +5,12 @@ import java.util.Arrays;
 public class 황병수 {
 
     public static void main(String[] args) {
-
         int n = 6;
-        int[] times = new int[]{9,7,10};
+        int[] times = new int[]{7,10};
 
         long solution = solution(n, times);
         System.out.println("solution = " + solution);
     }
-
 
     static long solution(int n, int[] times) {
         Arrays.sort(times); // 심사 시간 오름차순 정렬

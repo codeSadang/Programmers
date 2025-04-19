@@ -1,5 +1,7 @@
 package _4월3주.단속카메라;
 
+import java.util.Arrays;
+
 /**
  * 1. 문제
  * 고속도로를 이용하는 모든 차량이 고속도로를 이용하면서 단속용 카메라를 한 번은 만날 수 있는 카메라의 최소 대수를 구해라
@@ -38,6 +40,14 @@ public class 홍창모 {
                 }
             }
         }
+
+        Arrays.sort(routes, (a, b) -> {
+            if (a[0] != b[0]) {
+                return Integer.compare(a[0], b[0]); // 진입 지점 기준 오름차순
+            } else {
+                return Integer.compare(a[1], b[1]); // 진입 지점이 같다면 진출 지점 기준 오름차순
+            }
+        });
 
         // 차량의 진입 지점과 진출 지점이 정렬된 상태에서 카메라를 설치
         int camera = routes[0][1];
