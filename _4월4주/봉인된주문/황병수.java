@@ -1,6 +1,6 @@
-package _4월3주;
+package _4월4주.봉인된주문;
 
-public class 봉인된주문 {
+public class 황병수 {
 
     public static void main(String[] args) {
 
