@@ -1,8 +1,8 @@
 package _4월2주.불량사용자;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Pattern;
 
 public class 황병수 {
 
@@ -11,37 +11,65 @@ public class 황병수 {
         String[] banned_id = {"fr*d*", "*rodo", "******", "******"};
 
         int answer = solution(user_id, banned_id);
-        System.out.println(answer);
+        System.out.print(answer);
     }
 
-    public static int solution(String[] user_id, String[] banned_id) {
-        Set<Set<String>> result = new HashSet<>();
-        dfs(user_id, banned_id, new boolean[user_id.length], 0, new HashSet<>(), result);
-        return result.size();
+    private static int solution(String[] user_id, String[] banned_id) {
+        return dfs(user_id, banned_id);
     }
 
-    // DFS로 경우의 수 탐색
-    private static void dfs(String[] user_id, String[] banned_id, boolean[] visited,
-                            int depth, Set<String> currentSet, Set<Set<String>> result) {
+    private static int dfs(String[] user_id, String[] banned_id) {
 
-        if (depth == banned_id.length) {
-            // 완성된 조합을 result에 추가
-            result.add(new HashSet<>(currentSet)); // 중복 제거 위해 복사본 저장
-            return;
-        }
+        class Node {
+            int depth;
+            boolean[] visited;
+            ArrayList<String> currentSet;
 
-        String pattern = banned_id[depth].replace("*", ".");
-
-        for (int i = 0; i < user_id.length; i++) {
-            if (!visited[i] && Pattern.matches(pattern, user_id[i])) {
-                visited[i] = true;
-                currentSet.add(user_id[i]);
-
-                dfs(user_id, banned_id, visited, depth + 1, currentSet, result);
-
-                visited[i] = false;
-                currentSet.remove(user_id[i]);
+            Node(int depth, boolean[] visited, ArrayList<String> currentSet) {
+                this.depth = depth;
+                this.visited = visited;
+                this.currentSet = currentSet;
             }
         }
+
+        ArrayDeque<Node> stack = new ArrayDeque<>();
+        stack.push(new Node(0, new boolean[user_id.length], new ArrayList<>()));
+
+        HashSet<HashSet<String>> resultSet = new HashSet<>();
+
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+
+            if (current.depth == banned_id.length) {
+
+                for (HashSet<String> strings : resultSet) {
+                    System.out.println("strings = " + strings);
+                }
+                resultSet.add(new HashSet<>(current.currentSet));
+                continue;
+            }
+
+            for (int i = 0; i < user_id.length; i++) {
+                if (!current.visited[i] && invalidation(banned_id[current.depth], user_id[i])) {
+                    boolean[] nextVisited = current.visited.clone();
+                    nextVisited[i] = true;
+                    ArrayList<String> nextSet = new ArrayList<>(current.currentSet);
+                    nextSet.add(user_id[i]);
+                    stack.push(new Node(current.depth + 1, nextVisited, nextSet));
+                }
+            }
+        }
+
+        return resultSet.size();
+    }
+
+    private static boolean invalidation(String banned, String user) {
+        if (banned.length() != user.length()) return false;
+
+        for (int i = 0; i < banned.length(); i++) {
+            if (banned.charAt(i) == '*') continue;
+            if (banned.charAt(i) != user.charAt(i)) return false;
+        }
+        return true;
     }
 }
